@@ -1,41 +1,42 @@
 
 <div class='posts'> 
-    <ul>
-      <li><%=@post.title%></li>
-      <li><%=@post.user.name%></li>
-      <li><%=@post.body%></li>
-    </ul>
     <form method="post" action="/new_comment/<%=@post.id%>">
-      <textarea name="body" placeholder="enter your comments!"></textarea>
-      <input type="submit" value="submit">
+      <textarea class='text_box' name="body" placeholder="Enter your comment. Be nice."></textarea><br>
+      <input type="submit" value="add comment">
     </form>
 
+    <ul>
+      <li id="post_title"><%=@post.title%><br></li>
+      <li>by: <%=@post.user.name%><br><br></li>
+      <li id="post_body"><%=@post.body%></li>
+    </ul>
+
+
+<!-- COMMENTS: -->
+<hr>
     <% @post.comments.each do |comment| %>
       
+      <ul>
+        <li>"<%=comment.body%>"</li>
+      </ul>
 
       <ul>
         <li>
+        <ul>
+          <li id='comment_stats'><%=comment_score(comment)%> point(s) | Comment by: <%=comment.user.name%></li>
+        </ul>
+      </ul>
+
           <form name="upvote" method="POST" action="/comment_upvote">
             <input type="hidden" name="comment_id" value="<%=comment.id%>">
-            <input type='submit' value='Up'>
+            <input type='submit' value='VoteUp'>
           </form>
         </li>
         <li>        
           <form name="downvote" method="POST" action="/comment_downvote">
             <input type="hidden" name="comment_id" value="<%=comment.id%>">
-            <input type='submit' value='Down'>
+            <input type='submit' value='VoteDown'>
           </form>
-        <ul>
-          <li><%=comment_score(comment)%> point(s) | </li>
-          <li><%=comment.user.name%></li>
-        </ul>
-      </ul>
-
-
-      <ul>
-        <li><%=comment.user.name%></li>
-        <li><%=comment.body%>
-      </ul>
+          <hr>
     <% end %>
-  <a href="/">Home</a>
 </div>

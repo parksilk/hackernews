@@ -20,15 +20,14 @@
 <body>
   <div class="container">
     <header>
-      <h1>Welcome to HackerNews!</h1>
-      <ul>
+      <a class="btn" href="/">Home</a>
         <% if logged_in? %>
-          <li><a class ="btn" href='/logout'>Logout</a></li>
-          <li><%=current_user.name%></li>
+          <a class ="btn" href='/logout'>logout <%=current_user.name%></a></li>
+          <a class ="btn" href='/new_post'>submit</a></li>
         <% else %>
-          <li><a class ="btn" href='/login_signup'>Login/Signup</a></li>
+          <a class ="btn" href='/login_signup'>Login/Signup</a></li>
         <% end %>
-      </ul>
+      <h1>HackerNews</h1>
     <header/>
     <%= yield %>
  </div>

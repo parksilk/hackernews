@@ -9,7 +9,6 @@ get '/posts/:id' do
   erb :single_post
 end
 
-
 post '/new_comment/:post_id' do 
   if logged_in?
     Comment.create(:body => params[:body],
@@ -62,13 +61,6 @@ post '/post_upvote' do
   end 
 end
 
-
-
-
-
-
-
-
 post '/comment_downvote' do
  if logged_in?
     comment = Comment.find(params[:comment_id])
@@ -76,7 +68,7 @@ post '/comment_downvote' do
     CommentVote.find_or_create_by_comment_id_and_user_id(:vote_status => false,
                                                          :comment_id => comment.id,
                                                          :user_id => user)
-    redirect '/'
+    redirect "/posts/#{comment.post_id}"
   else 
     redirect '/'
   end
@@ -89,24 +81,11 @@ post '/comment_upvote' do
     CommentVote.find_or_create_by_comment_id_and_user_id(:vote_status => true,
                                                          :comment_id => comment.id,
                                                          :user_id => user)
-    redirect '/'
+    redirect "/posts/#{comment.post_id}"
   else
     redirect '/'
   end 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 post '/signup' do
   p params
@@ -128,19 +107,13 @@ post '/login' do
     set_user_id
     redirect '/'
   else
-    # raise 'no user with that info'
     redirect '/'
   end
 end
 
-  # user = User.find_by_email(params[:email])
-  # login
-
-
 get '/login_signup' do
   erb :login_signup
 end
-
 
 get '/logout' do
   session.clear
