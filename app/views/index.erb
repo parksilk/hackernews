@@ -3,13 +3,13 @@
   <%@posts.each do |post|%>
     <ul>
       <li>
-        <form name="upvote" method="POST" action="/upvote">
+        <form name="upvote" method="POST" action="/post_upvote">
           <input type="hidden" name="post_id" value="<%=post.id%>">
           <input type='submit' value='Up'>
         </form>
       </li>
       <li>        
-        <form name="downvote" method="POST" action="/downvote">
+        <form name="downvote" method="POST" action="/post_downvote">
           <input type="hidden" name="post_id" value="<%=post.id%>">
           <input type='submit' value='Down'>
         </form>

@@ -9,18 +9,6 @@ get '/posts/:id' do
   erb :single_post
 end
 
-post '/downvote' do
- if logged_in?
-    post = Post.find(params[:post_id])
-    user = post.user_id
-    PostVote.find_or_create_by_post_id_and_user_id(:vote_status => false,
-                                                   :post_id => post.id,
-                                                   :user_id => user)
-    redirect '/'
-  else 
-    redirect '/'
-  end
-end
 
 post '/new_comment/:post_id' do 
   if logged_in?
@@ -48,9 +36,20 @@ post '/new_post' do
   end
 end
 
+post '/post_downvote' do
+ if logged_in?
+    post = Post.find(params[:post_id])
+    user = post.user_id
+    PostVote.find_or_create_by_post_id_and_user_id(:vote_status => false,
+                                                   :post_id => post.id,
+                                                   :user_id => user)
+    redirect '/'
+  else 
+    redirect '/'
+  end
+end
 
-
-post '/upvote' do
+post '/post_upvote' do
   if logged_in?
     post = Post.find(params[:post_id])
     user = post.user_id
@@ -62,6 +61,52 @@ post '/upvote' do
     redirect '/'
   end 
 end
+
+
+
+
+
+
+
+
+post '/comment_downvote' do
+ if logged_in?
+    comment = Comment.find(params[:comment_id])
+    user = comment.user_id
+    CommentVote.find_or_create_by_comment_id_and_user_id(:vote_status => false,
+                                                         :comment_id => comment.id,
+                                                         :user_id => user)
+    redirect '/'
+  else 
+    redirect '/'
+  end
+end
+
+post '/comment_upvote' do
+  if logged_in?
+    comment = Comment.find(params[:comment_id])
+    user = comment.user_id
+    CommentVote.find_or_create_by_comment_id_and_user_id(:vote_status => true,
+                                                         :comment_id => comment.id,
+                                                         :user_id => user)
+    redirect '/'
+  else
+    redirect '/'
+  end 
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 post '/signup' do
   p params

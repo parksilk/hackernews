@@ -4,7 +4,13 @@ helpers do
     downvote = post.post_votes.where('vote_status = ?',false).count
     upvote = post.post_votes.where('vote_status = ?',true).count
     @post_score = upvote - downvote
-    
+
+  end
+
+  def comment_score(comment)
+    downvote = comment.comment_votes.where('vote_status = ?',false).count
+    upvote = comment.comment_votes.where('vote_status = ?',true).count
+    @comment_score = upvote - downvote 
   end
 
 
