@@ -13,22 +13,50 @@ post '/downvote' do
  if logged_in?
     post = Post.find(params[:post_id])
     user = post.user_id
-    PostVote.create(:vote_status => false,
-                    :post_id => post.id,
-                    :user_id => user)
+    PostVote.find_or_create_by_post_id_and_user_id(:vote_status => false,
+                                                   :post_id => post.id,
+                                                   :user_id => user)
     redirect '/'
   else 
     redirect '/'
   end
 end
 
+post '/new_comment/:post_id' do 
+  if logged_in?
+    Comment.create(:body => params[:body],
+                   :user_id => current_user.id,
+                   :post_id => params[:post_id])
+    redirect to "/posts/#{params[:post_id]}'"
+  else
+    redirect '/'
+  end
+end
+
+get '/new_post' do
+  erb :new_post
+end
+
+post '/new_post' do
+  if logged_in?
+    @post = Post.create(:title => params[:title],
+                        :body => params[:body],
+                        :user_id => current_user.id)
+    redirect "/posts/#{@post.id}"
+  else
+    erb :login_signup  
+  end
+end
+
+
+
 post '/upvote' do
   if logged_in?
     post = Post.find(params[:post_id])
     user = post.user_id
-    PostVote.create(:vote_status => true,
-                    :post_id => post.id,
-                    :user_id => user)
+    PostVote.find_or_create_by_post_id_and_user_id(:vote_status => true,
+                                                   :post_id => post.id,
+                                                   :user_id => user)
     redirect '/'
   else
     redirect '/'
@@ -67,6 +95,7 @@ end
 get '/login_signup' do
   erb :login_signup
 end
+
 
 get '/logout' do
   session.clear
